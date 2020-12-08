@@ -25,5 +25,9 @@ mongoose.connection.once('open', () =>{
 // api routes
 app.get('/', (req, res) => res.status(200).send("hello world"));
 
+app.post("/upload",(req, res) => {
+
+});
+
 // listen
 app.listen(port, () => console.log(`listening on localhost:${port}`));
