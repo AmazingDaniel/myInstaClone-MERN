@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+}
+
+.App {
+  background-color: #fafafa;
+}
+
+.appPostsRight {
+  margin-left: 20px;
+}
+
+.appHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+  object-fit: contain;
+  display: flex;
+  justify-content: space-between;
+}
+
+.appPosts {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.appHeaderImage {
+  max-width: 300px;
+  height: auto;
+  object-fit: contain;
+}
+
+.appSignup {
+  display: flex;
+  flex-direction: column;
+}
