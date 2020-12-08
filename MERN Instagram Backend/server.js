@@ -31,6 +31,25 @@ mongoose.connection.once('open', () => {
     console.log('DB Connection')
 
     const changeStream = mongoose.connection.collection('posts').watch()
+
+    changeStream.on("change", (change) => {
+        console.log("Change Triggered on pusher")
+        console.log(change)
+        console.log("End of Change")
+
+        if(change.operationType === "insert"){
+            console.log("Triggering Pusher ***IMG UPLOAD***")
+
+            const postDetails = change.fullDocument;
+            pusher.trigger("posts", "inserted", {
+                users: postDetails.user,
+                caption: postDetails.caption,
+                image: postDetails.image
+            })
+        } else {
+            console.log("Unknown trigger from Pusher")
+        }
+    })
 }); 
 
 // api routes

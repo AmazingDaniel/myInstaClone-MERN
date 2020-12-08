@@ -7,6 +7,8 @@ import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core';
 import ImageUpload from './ImageUpload';
 import InstagramEmbed from 'react-instagram-embed';
+import axios from './axios'
+import Flipmove from 'flipmove'
 
 function getModalStyle() {
   const top = 50;
@@ -60,15 +62,16 @@ function App() {
   }, [user, username]);
 
   useEffect(() => {
-    // this where the code runs
-    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-      // everytime a new post is added, this code fires...
-      setPosts(snapshot.docs.map(doc => ({
-        id: doc.id,
-        post: doc.data()
-      })));
-    })
+    const fetchPosts = async () => 
+    await axios.get('/sync').then((response) => {
+      console.log(response)
+      setPosts(response.data)
+    });
+
+    fetchPosts();
   }, []);
+
+  console.log('post are >>>', posts)
 
   const signUp = (event) => {
     event.preventDefault();
@@ -181,11 +184,19 @@ function App() {
 
       <div className="appPosts">
         <div className="appPostsLeft">
+          <FlipMove>
           {
-            posts.map(({ id, post }) => (
-              <Post key={id} postId={id} user={user} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />
+            posts.map((post) => (
+              <Post 
+              key={post._id} 
+              postId={post._id} 
+              user={user} 
+              username={post.user} 
+              caption={post.caption} 
+              imageUrl={post.image} />
             ))
           }
+          </FlipMove>
         </div>
         <div className="appPostsRight">
           <InstagramEmbed

@@ -4,7 +4,8 @@ import Avatar from "@material-ui/core/Avatar";
 import { db } from './firebase';
 import firebase from 'firebase';
 
-function Post({ postId, user, username, caption, imageUrl }) {
+const Post = forwardRef(
+    ({ postId, user, username, caption, imageUrl }, ref) => {
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState('');
 
@@ -80,6 +81,6 @@ function Post({ postId, user, username, caption, imageUrl }) {
             )}
         </div>
     )
-}
+})
 
 export default Post
