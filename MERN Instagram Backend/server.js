@@ -9,6 +9,7 @@ const port = process.env.PORT || 8080;
 
 // middlewares
 app.use()
+app.use(cors())
 
 // DB config
 
