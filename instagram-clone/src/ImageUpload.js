@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import firebase from 'firebase';
 import { db, storage } from './firebase';
 import './ImageUpload.css';
+import axios from './axios';
 
-function Imageupload({username}) {
+const Imageupload = ({username}) => {
     const [image, setImage] = useState(null);
+    const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
     const [caption, setCaption] = useState('');
 
@@ -39,6 +41,14 @@ function Imageupload({username}) {
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
+                        setUrl(url);
+
+                        axios.post('/upload', {
+                            caption: caption,
+                            user: username,
+                            image: url
+                        });
+
                         //post images inside db
                         db.collection("posts").add({
                             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -52,8 +62,8 @@ function Imageupload({username}) {
                         setImage(null);
                     })
             }
-        )
-    }
+        );
+    };
 
     return (
         <div className="imageUpload">
